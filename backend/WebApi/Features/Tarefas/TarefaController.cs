@@ -10,6 +10,12 @@ namespace WebApi.Features.Tarefas
     [Route("api/tarefas")]
     public class TarefasController : MainController
     {
+        /*
+         GET - Recuperar informações
+        PUT - Atualizar informações
+        POST - Adicionar informações
+        DELETE - Excluir informações
+         */
         private readonly IMediator _mediator;
 
         public TarefasController(IMediator mediator)

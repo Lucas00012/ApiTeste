@@ -14,7 +14,26 @@ namespace WebApi.Infrastructure.Startup
                     Description = "API de teste",
                 });
 
-                options.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
+                options.CustomSchemaIds(type =>
+                {
+                    var fullNameWithouPlusSign = type
+                        .FullName
+                        .Replace("+", "");
+
+                    //se for generico
+                    if (fullNameWithouPlusSign.Contains('['))
+                    {
+                        var pattern = new System.Text.RegularExpressions.Regex(@"\.(\w+)`[^,]*\.(\w+),");
+                        var groups = pattern.Match(fullNameWithouPlusSign).Groups;
+                        return $"{groups[2]}{groups[1]}";
+                    }
+
+                    var lastName = fullNameWithouPlusSign
+                        .Substring(
+                            fullNameWithouPlusSign.LastIndexOf('.') + 1);
+
+                    return lastName;
+                });
             });
         }
 
